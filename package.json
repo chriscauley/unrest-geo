@@ -1,0 +1,7 @@
+{
+  "name": "@unrest/geo",
+  "version": "0.0.1",
+  "description": "spatial engine for arbitrarily shaped dimensions",
+  "main": "index.js",
+  "license": "MIT"
+}
