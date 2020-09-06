@@ -3,5 +3,14 @@
   "version": "0.0.1",
   "description": "spatial engine for arbitrarily shaped dimensions",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "develop": "cd client; yarn develop"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.11.5",
+    "jest": "^26.4.2"
+  }
 }
