@@ -1,0 +1,59 @@
+@import "./var.scss";
+
+.hex-grid {
+  margin: $hex_h / 2 $hex_w / 8;
+  width: calc(var(--columns) * #{$cell_w + $buffer});
+  &.cut_first {
+    margin-left: -$hex_w;
+  }
+  .row {
+    display: flex;
+  }
+  .item {
+    @apply relative;
+    width: $hex_w / 2 + $buffer;
+    height: $hex_h + $buffer;
+    margin: 0 $hex_w / 8;
+    .content {
+      height: calc(#{$hex_h} + 1px);
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: $hex_w;
+      $z: -5%;
+      @for $i from  1 through 4 {
+        .stacked-#{$i} {
+          top: $i * $z;
+          left: $i * $z;
+        }
+      }
+    }
+  }
+  .item:nth-child(even) .content {
+    margin-top: -#{$hex_h / 2 + $buffer / 2};
+  }
+  &.odd-q .item:nth-child(even) .content {
+    margin-top: #{$hex_h / 2 + $buffer / 2};
+  }
+}
+
+.hex-grid.large {
+  font-size: 3rem;
+}
+
+.hex-grid {
+  .hex {
+    @apply flex justify-center items-center w-full h-full;
+    background-size: contain;
+    background-repeat: no-repeat;
+    &.debug {
+      float: left;
+      width: 200px;
+      height: 173px;
+    }
+  }
+  .hex-player_2 {
+    color: #eee;
+  }
+}

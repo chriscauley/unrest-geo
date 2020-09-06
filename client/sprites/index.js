@@ -1,13 +1,17 @@
 import React from 'react'
 import { Link, Switch, Route, useRouteMatch } from 'react-router-dom'
 
+import Grid from './Grid'
 import Hexes, { makeSprites } from './Hexes'
 import Tiles from './Tiles'
 
 const links = [
-  ['tiles', Tiles],
+  ['grid', Grid],
   ['hexes', Hexes],
+  ['tiles', Tiles],
 ]
+
+console.log(Grid)
 
 function Index({ path }) {
   return (
@@ -26,7 +30,6 @@ function Index({ path }) {
 export default {
   makeSprites,
   Routes() {
-    console.log(1)
     const { path } = useRouteMatch()
     return (
       <div className="overflow-auto">
