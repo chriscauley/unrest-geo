@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { HashRouter, Route } from 'react-router-dom'
+import sprites from './sprites'
 
 const keyMap = {
   TOGGLE_HELP: ['/', '?', 'shift+?'],
@@ -13,7 +14,7 @@ const App = () => {
   return (
     <HashRouter>
       <GlobalHotKeys handlers={handlers} keyMap={keyMap} />
-      woo!
+      <Route path="/sprites/" component={sprites.Routes} />
     </HashRouter>
   )
 }
