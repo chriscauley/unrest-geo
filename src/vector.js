@@ -1,7 +1,5 @@
 // a collection of vector operations.
 // # TODO AD after deploy comment out unused parts
-import _ from 'lodash'
-
 export const ZERO = [0, 0]
 
 const add = ([dx, dy], [dx2, dy2]) => [dx + dx2, dy + dy2]

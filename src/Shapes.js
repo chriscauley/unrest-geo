@@ -1,4 +1,4 @@
-import { range } from 'lodash'
+import range from './range'
 
 const Shapes = (geo) => ({
   circle: (dist, dindex) => {

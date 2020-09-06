@@ -1,7 +1,6 @@
-import { range } from 'lodash'
-
-import { mod } from '../utils'
+import mod from './mod'
 import Look from './Look'
+import range from './range'
 
 const geo_cache = {}
 
