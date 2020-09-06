@@ -115,7 +115,7 @@ export const makeSprites = (debug) => {
   Object.entries(bgs).forEach(([bg_name, bg]) =>
     borders.forEach((border) => {
       makeHex(canvas, bg, border, debug)
-      const cls = classNames('hex', 'hex-' + bg_name, border)
+      const cls = classNames('cell', 'cell-' + bg_name, border)
       style_text += toStyle(cls, canvas, debug)
 
       if (['red', 'green'].includes(border) && bg_name === 'empty') {

@@ -1,6 +1,6 @@
 @import "./var.scss";
 
-.hex-grid {
+.geo.geo-hex {
   margin: $hex_h / 2 $hex_w / 8;
   width: calc(var(--columns) * #{$cell_w + $buffer});
   &.cut_first {
@@ -38,12 +38,12 @@
   }
 }
 
-.hex-grid.large {
+.geo.geo-hex.large {
   font-size: 3rem;
 }
 
-.hex-grid {
-  .hex {
+.geo.geo-hex {
+  .cell {
     @apply flex justify-center items-center w-full h-full;
     background-size: contain;
     background-repeat: no-repeat;
@@ -53,7 +53,7 @@
       height: 173px;
     }
   }
-  .hex-player_2 {
+  .cell.cell-player_2 {
     color: #eee;
   }
 }

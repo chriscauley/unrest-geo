@@ -11,8 +11,6 @@ const links = [
   ['tiles', Tiles],
 ]
 
-console.log(Grid)
-
 function Index({ path }) {
   return (
     <div className="w-full flex">

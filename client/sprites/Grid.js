@@ -7,13 +7,13 @@ export default function GridDemo() {
   const players = [1, 2]
   makeSprites()
   return (
-    <div className="hex-grid large">
+    <div className="geo geo-hex large">
       {players.map(player => (
         <div className="row" key={player}>
           {pieces.map(p => (
             <div className="item" key={p}>
               <div className="content">
-                <div className={`hex hex-player_${player}`}>{p}</div>
+                <div className={`cell cell-player_${player}`}>{p}</div>
               </div>
             </div>
           ))}
