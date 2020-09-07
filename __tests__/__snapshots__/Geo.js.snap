@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`\`geo.look(shape, index, dist, dindex)\` changes direction with dindex 1`] = `"31,22,21,23,13,12,14,11,15,4,3,5,2,6,1,7"`;
+
+exports[`\`geo.look(shape, index, dist, dindex)\` changes direction with dindex 2`] = `"39,38,47,29,37,46,28,55,19,36,45,27,54,18,63,9"`;
+
+exports[`\`geo.look(shape, index, dist, dindex)\` changes direction with dindex 3`] = `"41,42,33,51,43,34,52,25,61,44,35,53,26,62,17,71"`;
+
+exports[`\`geo.look(shape, index, dist, dindex)\` changes direction with dindex 4`] = `"49,58,59,57,67,68,66,69,65,76,77,75,78,74,79,73"`;
+
+exports[`look.box 1`] = `"18,25,32,17,31,16,23,30,12,19,26,33,40,11,39,10,38,9,37,8,15,22,29,36,6,13,20,27,34,41,48,5,47,4,46,3,45,2,44,1,43,0,7,14,21,28,35,42"`;
+
+exports[`look.circle 1`] = `"25,31,17,23,26,32,18,38,10,30,16,22,27,33,19,39,11,45,3,29,15,37,9,21"`;
+
+exports[`look.cone 1`] = `"25,26,19,33,27,20,34,13,41"`;
+
+exports[`look.cross 1`] = `"25,17,31,23,26,10,38,22,27,3,45,21"`;
+
+exports[`look.f 1`] = `"25,26,27"`;
+
+exports[`look.lr 1`] = `"17,31,10,38,3,45"`;
+
+exports[`look.three 1`] = `"25,18,32,26,19,33,27,20,34"`;
+
+exports[`xy2index 1`] = `"6,12,16,18,20,24,geo"`;
