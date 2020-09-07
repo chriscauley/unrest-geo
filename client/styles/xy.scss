@@ -1,0 +1,11 @@
+.geo.geo-xy {
+  @apply select-none;
+  font-size: 2rem;
+  .row {
+    @apply flex;
+  }
+  .cell {
+    width: 2em;
+    height: 2em;
+  }
+}

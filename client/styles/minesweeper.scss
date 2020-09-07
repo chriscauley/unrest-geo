@@ -1,0 +1,48 @@
+.minesweeper {
+  .cell {
+    @apply block border-black border flex items-center justify-center relative cursor-pointer;
+  }
+
+  .cell-undefined {
+    @apply bg-gray-500;
+  }
+  .cell-X {
+    display: none;
+    background: red;
+  }
+  .cell-0, .cell-1, .cell-2, .cell-3, .cell-4, .cell-5, .cell-H {
+    @apply bg-white;
+  }
+  .cell-0, .cell-H, .cell-M, .cell-F {
+    color: transparent;
+  }
+  .cell-1 {
+    @apply text-blue-500;
+  }
+  .cell-2 {
+    @apply text-green-500;
+  }
+  .cell-3 {
+    @apply text-orange-500;
+  }
+  .cell-4 {
+    @apply text-purple-500;
+  }
+  .cell-5 {
+    @apply text-red-500;
+  }
+  .cell-M, .cell-F {
+    &:before {
+      font-family: FontAwesome;
+      @apply absolute top-0 left-0 w-full h-full flex justify-center items-center;
+    }
+  }
+  .cell-M:before {
+    @apply text-red-700 bg-red-300;
+    content: "\f1e2";
+  }
+  .cell-F:before {
+    @apply text-green-700 bg-green-300;
+    content: "\f024";
+  }
+}

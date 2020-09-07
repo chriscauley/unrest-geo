@@ -1,5 +1,9 @@
-/* Game pieces */
+/* Grids */
 @import './hex.scss';
+@import './xy.scss';
+
+/* Game specific*/
+@import './minesweeper.scss';
 
 .app-content {
   position: relative;
@@ -13,4 +17,8 @@
     right: 0;
     bottom: 0;
   }
+}
+
+#react-app {
+  @apply bg-transparent justify-center items-center;
 }
