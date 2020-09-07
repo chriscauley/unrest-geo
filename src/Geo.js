@@ -4,6 +4,9 @@ import range from './range'
 
 const geo_cache = {}
 
+const DINDEX_NAMES = ['u', 'l', 'r', 'd']
+const DINDEX_CHARS = ['⇧', '⇦', '⇨', '⇩']
+
 class Geo {
   constructor(x0, x_max, y0, y_max) {
     if (x_max === undefined) {
@@ -20,15 +23,17 @@ class Geo {
     const H = Math.abs(y_max - y0) + 1
 
     // constants
-    Object.assign(this, { x0, y0, W, H })
+    Object.assign(this, { x0, y0, W, H, x_max, y_max })
+    this.doCache()
+    this.look = Look(this)
+  }
 
+  doCache() {
+    const { W, H, x0, x_max, y0, y_max } = this
     // cache tables
     Object.assign(this, {
-      xys: [],
       indexes: [],
       AREA: W * H,
-      _dindex_names: ['u', 'l', 'r', 'd'],
-      _dindex_chars: ['^', '<', '>', 'v'],
       _dindex2char: {},
       _name2dindex: {},
       _dindex2name: {},
@@ -42,10 +47,10 @@ class Geo {
     })
 
     this.dindexes.forEach((dindex, i) => {
-      const name = this._dindex_names[i]
+      const name = DINDEX_NAMES[i]
       this._dindex2name[dindex] = name
       this._name2dindex[name] = dindex
-      this._dindex2char[dindex] = this._dindex_chars[i]
+      this._dindex2char[dindex] = DINDEX_CHARS[i]
     })
 
     this.CENTER = this.xy2index([
@@ -54,14 +59,8 @@ class Geo {
     ])
 
     range(y0, y_max + 1).forEach((y) =>
-      range(x0, x_max + 1).forEach((x) => {
-        const xy = [x, y]
-        this.xys.push(xy)
-        this.indexes.push(this.xy2index(xy))
-      }),
+      range(x0, x_max + 1).forEach((x) => this.indexes.push(this.xy2index([x, y]))),
     )
-
-    this.look = Look(this)
   }
 
   index2xy = (i) => [mod(i, this.W), Math.floor(i / this.W)]
