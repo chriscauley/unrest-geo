@@ -5,9 +5,11 @@ import Geo, { random, range } from '../../src'
 const game_cache = {}
 
 const MINE = 'M'
-const WALL = 'X'
+const WALL = 'W'
 const FLAG = 'F'
 const HOLE = 'H'
+const MISS = 'X'
+const CLICK = "A"
 const ZERO = 0 // specifically, zero as number of mines to display
 const MAX_NEIGHBORS = 5
 
@@ -26,9 +28,9 @@ const placeMine = (game, index) => {
 
 const placeHole = (game, index) => {
   game.mines[index] = HOLE
-  // game.look(index).forEach(i => {
-  //   game.mines[i] = HOLE
-  // })
+  game.geo.look('circle', index, 1, 1)
+    .filter(i => game.mines[i] !== WALL)
+    .forEach(i => game.mines[i] = HOLE)
 }
 
 const click = (game, index, force) => {
@@ -39,7 +41,7 @@ const click = (game, index, force) => {
     }
   }
   if (game.mines[index] === MINE) {
-    console.error("TODO punish for mine")
+    game.scores.mine ++
   }
   game.visible[index] = game.mines[index] || game.near[index]
   if (game.near[index] === ZERO) {
@@ -53,16 +55,22 @@ const flag = (game, index) => {
   }
   if (game.mines[index]) {
     game.visible[index] = FLAG
-    // game.look(index).forEach(index2 => {
-    //   const nearbyFlags = game.look(index2).filter(i => game.visible[i] === FLAG).length
-    //   console.log(nearbyFlags, game.visible[index2])
-    //   if (nearbyFlags === game.visible[index2]) {
-    //     game.look(index2).forEach(i3 => click(game, i3))
-    //   }
-    // })
+    game.scores.flag ++
   } else {
-    console.error("punish for miss")
+    game.visible[index] = MISS
+    game.scores.miss ++
   }
+}
+
+const SCORE_MAP = { CLICK, FLAG, MISS, MINE }
+
+const prepScores = (game) => {
+  return Object.entries(SCORE_MAP).map(([NAME, char]) => ({
+    NAME,
+    char,
+    name: NAME.toLowerCase(),
+    value: game.scores[NAME.toLowerCase()],
+  }))
 }
 
 const useGame = (W, H, M, x, y) => {
@@ -74,7 +82,6 @@ const useGame = (W, H, M, x, y) => {
     x ++
     y ++
     const S = y * H + x
-    console.log(S)
     const geo = Geo(W, H)
     const game = {
       mines: {},
@@ -83,7 +90,24 @@ const useGame = (W, H, M, x, y) => {
       rows: [],
       visible: {},
       mode: 'classic',
-      look(index) { return geo.look('box', index, 1, 1) }
+      scores: {
+        miss: 0,
+        mine: 0,
+        flag: 0,
+      },
+      look(index) { return geo.look('box', index, 1, 1) },
+      recount: () => {
+        let count = 0
+        Object.keys(game.visible).forEach((index) => {
+          if (game.visible[index] === undefined) {
+            delete game.visible[index]
+          } else {
+            count ++
+          }
+        })
+        game.scores.click = W * H - count
+        return game.scores.click
+      }
     }
     game_cache[key] = game
     let count = 0
@@ -94,14 +118,14 @@ const useGame = (W, H, M, x, y) => {
       game.near[i] = 0
       if (i % W === 0) {
         game.rows.push(row = [])
-      }
+       }
       // if (game.mines[i] !== WALL) {
       row.push(i)
       // }
     })
     placeHole(game, S)
     while (count < M && fails <= M * 2) {
-      const index = random.int((S+1) * M * count * fails, geo.indexes.length)
+      const index = random.int((S+1) * M * (count+1) * fails, geo.indexes.length)
       if (allowMine(game, index)) {
         placeMine(game, index)
         count ++
@@ -112,14 +136,18 @@ const useGame = (W, H, M, x, y) => {
     geo.rows = []
     Object.entries(game.mines)
       .filter(([index, value])=> value === HOLE)
-      .forEach(([index, _]) => click(game, index, true))
+      .forEach(([index, _]) => {
+        click(game, index, true)
+        game.visible[index] = game.near[index]
+      })
     Object.entries(game.mines)
       .filter(([index, value])=> value === WALL)
       .forEach(([index, _]) => game.visible[index] = WALL)
+    game.recount()
   }
-  window.g = game_cache[key]
-  game_cache[key].update = () => setState(Math.random())
-  return game_cache[key]
+  const game = window.g = game_cache[key]
+  game.update = () => setState(game.recount())
+  return game
 }
 
 function Game({W, H, M, x, y}) {
@@ -143,14 +171,28 @@ function Game({W, H, M, x, y}) {
   }
 
   return (
-    <div className="geo geo-xy minesweeper">
-      {rows.map((row, i_row) => (
-        <div className="row" key={i_row}>
-          {row.map(cell => (
-            <div className={`cell cell-${cell.value} index-${cell.index}`} key={cell.index} onClick={onClick(cell.index)}>{cell.value}</div>
+    <div className="minesweeper">
+      <div className="flex justify-between p-4 bg-white">
+        <div className="mr-8">
+          {`Map: ${W}x${H}x${M} / ${x},${y}`}
+        </div>
+        <div className="scores">
+          {prepScores(game).map((i) => (
+            <div key={i.char} className="score">
+              <span className={`cell cell-${i.char}`}/> {i.value}
+            </div>
           ))}
         </div>
-      ))}
+      </div>
+      <div className="geo geo-xy">
+        {rows.map((row, i_row) => (
+          <div className="row" key={i_row}>
+            {row.map(cell => (
+              <div className={`cell cell-${cell.value} index-${cell.index}`} key={cell.index} onClick={onClick(cell.index)}>{cell.value}</div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -176,7 +218,7 @@ const parsedParams = (Component) => ({match, ...props}) => {
 
 function PreGame({H, W}) {
   return (
-    <div className="geo geo-xy">
+    <div className="geo geo-xy minesweeper">
       {range(H).map(y => (
         <div className="row" key={y}>
           {range(W).map(x=> (
