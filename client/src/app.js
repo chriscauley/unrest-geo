@@ -10,8 +10,7 @@ const keyMap = {
 }
 
 const App = () => {
-  const handlers = {
-  }
+  const handlers = {}
   return (
     <HashRouter>
       <GlobalHotKeys handlers={handlers} keyMap={keyMap} />

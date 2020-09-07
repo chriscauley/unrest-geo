@@ -1,6 +1,5 @@
 import React from 'react'
-import {makeSprites} from './Hexes'
-
+import { makeSprites } from './Hexes'
 
 export default function GridDemo() {
   const pieces = [1, 2, 3, 4, 5, 6]
@@ -8,9 +7,9 @@ export default function GridDemo() {
   makeSprites()
   return (
     <div className="geo geo-hex large">
-      {players.map(player => (
+      {players.map((player) => (
         <div className="row" key={player}>
-          {pieces.map(p => (
+          {pieces.map((p) => (
             <div className="item" key={p}>
               <div className="content">
                 <div className={`cell cell-player_${player}`}>{p}</div>

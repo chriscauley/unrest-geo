@@ -69,7 +69,7 @@ class Geo {
   print(board, options = {}) {
     const {
       from_xy = [this.x0, this.y0],
-      to_xy = [this.x0 + this.W-1, this.y0 + this.H-1],
+      to_xy = [this.x0 + this.W - 1, this.y0 + this.H - 1],
       delimiter = '',
       empty = ' ',
       extras,

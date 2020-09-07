@@ -6,6 +6,6 @@ test('0', () => {
 })
 
 test('5', () => {
-  expect(range(5)).toEqual([0,1,2,3,4])
-  expect(range(1, 5)).toEqual([1,2,3,4])
+  expect(range(5)).toEqual([0, 1, 2, 3, 4])
+  expect(range(1, 5)).toEqual([1, 2, 3, 4])
 })
