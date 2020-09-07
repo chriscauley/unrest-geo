@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
-import Geo, { random, range } from '../../src'
+import Geo, { random, range } from '../../../src'
 
 const game_cache = {}
 
