@@ -1,3 +1,4 @@
 export { default } from './Geo'
 export { default as vector } from './vector'
 export { default as random } from './random'
+export { default as range } from './range'

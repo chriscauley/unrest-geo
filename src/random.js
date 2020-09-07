@@ -8,7 +8,6 @@ rand.int = (seed, min, max) => {
     min = 0
   }
   const range = max - min
-  console.log(max, min, seed, rand(seed), range)
   return min + (rand(seed) % range)
 }
 
