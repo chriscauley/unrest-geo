@@ -7,9 +7,9 @@
   "scripts": {
     "develop": "cd client; yarn develop"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
     "jest": "^26.4.2"
   }
