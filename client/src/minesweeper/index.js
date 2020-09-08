@@ -195,8 +195,8 @@ function Game({ W, H, M, x, y }) {
 
   return (
     <div className="minesweeper">
-      <div className="flex justify-between p-4 bg-white">
-        <div className="mr-8">{`Map: ${W}x${H}x${M} / ${x},${y}`}</div>
+      <div className="flex justify-between p-4 bg-white sticky top-0 z-10">
+        <div className="mr-8">{`Map: ${W}x${H}x${M} @ ${x},${y}`}</div>
         <div className="scores">
           {prepScores(game).map((i) => (
             <div key={i.char} className="score">
@@ -279,13 +279,11 @@ export default {
   Routes() {
     const { path } = useRouteMatch()
     return (
-      <div className="overflow-auto">
-        <Switch>
-          <Route path={path + ':dimension/:seed/'} component={parsedParams(Game)} />
-          <Route path={path + ':dimension/'} component={parsedParams(PreGame)} />
-          <Route path={path} component={Index} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route path={path + ':dimension/:seed/'} component={parsedParams(Game)} />
+        <Route path={path + ':dimension/'} component={parsedParams(PreGame)} />
+        <Route path={path} component={Index} />
+      </Switch>
     )
   },
 }
