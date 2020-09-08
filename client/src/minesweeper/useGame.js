@@ -25,7 +25,7 @@ export default (W, H, M, x, y) => {
       visible: {},
       mode: 'classic',
       scores: {
-        mine: 0,
+        lives: 3,
         flag: M,
       },
       look(index) {

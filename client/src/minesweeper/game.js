@@ -1,6 +1,7 @@
 import { range, random } from '../../../src'
 import { constructor } from 'xorshift'
 
+const LIVES = 'L'
 const MINE = 'M'
 const WALL = 'W'
 const FLAG = 'F'
@@ -8,7 +9,7 @@ const HOLE = 'H'
 const CLICK = 'A'
 const ZERO = 0 // specifically, zero as number of mines to display
 const MAX_NEIGHBORS = 5
-const SCORE_MAP = { CLICK, FLAG, MINE }
+const SCORE_MAP = { CLICK, FLAG, LIVES }
 
 export const _var = { MINE, WALL, FLAG, HOLE, CLICK, ZERO }
 
@@ -61,7 +62,7 @@ export const click = (game, index, force) => {
     }
   }
   if (game.mines[index] === MINE) {
-    game.scores.mine++
+    game.scores.lives--
     game.scores.flag--
   }
   game.visible[index] = game.mines[index] || game.near[index]

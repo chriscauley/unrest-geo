@@ -27,12 +27,13 @@
   .cell-5 {
     @apply text-red-500;
   }
-  .cell-M, .cell-F {
+  .cell-M, .cell-F, .cell-L {
     &:before {
       @apply absolute top-0 left-0 w-full h-full flex justify-center items-center text-black;
     }
   }
-  .cell-M:before {
+  .cell-L:before {
+    content: "❤️";
   }
   .cell-M:before {
     @apply bg-red-300;
