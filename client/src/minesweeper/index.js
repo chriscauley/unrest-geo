@@ -93,14 +93,17 @@ function Index() {
     hard: '16x32x99/',
   }
   return (
-    <ul>
-      {Object.entries(links).map(([name, url]) => (
-        <li key={url}>
-          <Link to={url}>{name}</Link>
-        </li>
-      ))}
-      <li />
-    </ul>
+    <div className="bg-white rounded p-4">
+      <h1 className="h3">Select a difficulty</h1>
+      <ul>
+        {Object.entries(links).map(([name, url]) => (
+          <li key={url}>
+            <Link to={url} className="p-2 hover:bg-gray-100 block">{name}</Link>
+          </li>
+        ))}
+        <li />
+      </ul>
+    </div>
   )
 }
 
