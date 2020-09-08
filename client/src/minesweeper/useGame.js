@@ -25,7 +25,6 @@ export default (W, H, M, x, y) => {
       visible: {},
       mode: 'classic',
       scores: {
-        miss: 0,
         mine: 0,
         flag: M,
       },

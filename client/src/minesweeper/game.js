@@ -4,13 +4,12 @@ const MINE = 'M'
 const WALL = 'W'
 const FLAG = 'F'
 const HOLE = 'H'
-const MISS = 'X'
 const CLICK = 'A'
 const ZERO = 0 // specifically, zero as number of mines to display
 const MAX_NEIGHBORS = 5
-const SCORE_MAP = { CLICK, FLAG, MISS, MINE }
+const SCORE_MAP = { CLICK, FLAG, MINE }
 
-export const _var = { MINE, WALL, FLAG, HOLE, MISS, CLICK, ZERO }
+export const _var = { MINE, WALL, FLAG, HOLE, CLICK, ZERO }
 
 export const allowMine = (game, index) => {
   if (game.mines[index]) {

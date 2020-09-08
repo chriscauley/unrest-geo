@@ -1,5 +1,5 @@
 .minesweeper {
-  .cell-undefined {
+  .cell-undefined, .cell-F {
     @apply cursor-pointer;
   }
   .cell {
@@ -9,7 +9,7 @@
   .cell-0, .cell-1, .cell-2, .cell-3, .cell-4, .cell-5, .cell-H {
     @apply bg-white;
   }
-  .cell-0, .cell-H, .cell-M, .cell-F, cell-X {
+  .cell-0, .cell-H, .cell-M, .cell-F {
     color: transparent;
   }
   .cell-1 {
@@ -27,24 +27,20 @@
   .cell-5 {
     @apply text-red-500;
   }
-  .cell-M, .cell-F, .cell-X {
+  .cell-M, .cell-F {
     &:before {
-      font-family: FontAwesome;
-      @apply absolute top-0 left-0 w-full h-full flex justify-center items-center;
+      @apply absolute top-0 left-0 w-full h-full flex justify-center items-center text-black;
     }
   }
-  .cell-M:before, .cell-X:before {
-    @apply text-red-700 bg-red-300;
+  .cell-M:before {
   }
   .cell-M:before {
-    content: "\f1e2";
+    @apply bg-red-300;
+    content: "💣";
   }
   .cell-F:before {
-    @apply text-green-700 bg-green-300;
-    content: "\f024";
-  }
-  .cell-X:before {
-    content: "\f119";
+    @apply bg-green-300;
+    content: "🏳️‍🌈";
   }
 }
 
