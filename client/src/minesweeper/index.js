@@ -1,99 +1,9 @@
 import React from 'react'
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 import Geo, { random, range } from '../../../src'
+import { allowMine, placeMine, placeHole, click, flag, prepScores, _var } from './game'
 
 const game_cache = {}
-
-const MINE = 'M'
-const WALL = 'W'
-const FLAG = 'F'
-const HOLE = 'H'
-const MISS = 'X'
-const CLICK = 'A'
-const ZERO = 0 // specifically, zero as number of mines to display
-const MAX_NEIGHBORS = 5
-
-const allowMine = (game, index) => {
-  if (game.mines[index]) {
-    return false
-  }
-  const neighbors = game.look(index)
-  return neighbors.find((i) => game.near[i] <= MAX_NEIGHBORS) !== undefined
-}
-
-const placeMine = (game, index) => {
-  game.mines[index] = MINE
-  game.look(index).forEach((i) => game.near[i]++)
-}
-
-const placeHole = (game, index) => {
-  game.mines[index] = HOLE
-
-  let count = 0
-  let fails = 0
-  const goal = (game.geo.W + game.geo.H) / 4
-  const targets = game.geo.look('circle', index, 1, 1).filter((i) => allowMine(game, i))
-  while (count < goal) {
-    const target = targets.splice(random(count + fails + 1 + index) % targets.length, 1)[0]
-    if (allowMine(game, target)) {
-      game.mines[target] = HOLE
-      game.geo
-        .look('circle', target, 1, 1)
-        .filter((i) => allowMine(game, i))
-        .forEach((i) => {
-          targets.push(i)
-        })
-      count++
-    } else {
-      fails++
-    }
-    if (fails > goal * 2) {
-      throw `Unable to place ${goal} mines in ${fails} turns`
-    }
-  }
-  targets.forEach((i) => (game.mines[i] = HOLE))
-}
-
-const click = (game, index, force) => {
-  index = parseInt(index)
-  if (game.visible[index] !== undefined || game.mines[index] === WALL) {
-    if (!force) {
-      return
-    }
-  }
-  if (game.mines[index] === MINE) {
-    game.scores.mine++
-    game.scores.flag--
-  }
-  game.visible[index] = game.mines[index] || game.near[index]
-  if (game.near[index] === ZERO) {
-    game.look(index).forEach((i) => click(game, i))
-  }
-}
-
-const flag = (game, index) => {
-  if (game.visible[index] !== undefined) {
-    return
-  }
-  if (game.mines[index]) {
-    game.visible[index] = FLAG
-    game.scores.flag--
-  } else {
-    game.visible[index] = MISS
-    game.scores.miss++
-  }
-}
-
-const SCORE_MAP = { CLICK, FLAG, MISS, MINE }
-
-const prepScores = (game) => {
-  return Object.entries(SCORE_MAP).map(([NAME, char]) => ({
-    NAME,
-    char,
-    name: NAME.toLowerCase(),
-    value: game.scores[NAME.toLowerCase()],
-  }))
-}
 
 const useGame = (W, H, M, x, y) => {
   const [_, setState] = React.useState()
@@ -137,7 +47,9 @@ const useGame = (W, H, M, x, y) => {
     let count = 0
     let fails = 1
     let row
-    geo.indexes.filter((i) => i < geo.W || i % geo.W === 0).forEach((i) => (game.mines[i] = WALL))
+    geo.indexes
+      .filter((i) => i < geo.W || i % geo.W === 0)
+      .forEach((i) => (game.mines[i] = _var.WALL))
     geo.indexes.forEach((i) => {
       game.near[i] = 0
       if (i % W === 0) {
@@ -160,14 +72,14 @@ const useGame = (W, H, M, x, y) => {
     }
     geo.rows = []
     Object.entries(game.mines)
-      .filter(([_, value]) => value === HOLE)
+      .filter(([_, value]) => value === _var.HOLE)
       .forEach(([index, _]) => {
         click(game, index, true)
         game.visible[index] = game.near[index]
       })
     Object.entries(game.mines)
-      .filter(([_, value]) => value === WALL)
-      .forEach(([index, _]) => (game.visible[index] = WALL))
+      .filter(([_, value]) => value === _var.WALL)
+      .forEach(([index, _]) => (game.visible[index] = _var.WALL))
     game.recount()
   }
   const game = (window.g = game_cache[key])
