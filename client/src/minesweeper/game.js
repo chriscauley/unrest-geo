@@ -1,4 +1,5 @@
-import { random } from '../../../src'
+import { range, random } from '../../../src'
+import { constructor } from 'xorshift'
 
 const MINE = 'M'
 const WALL = 'W'
