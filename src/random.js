@@ -1,6 +1,6 @@
 import xorshift from 'xorshift'
 
-const rand = seed => {
+const rand = (seed) => {
   const r = xorshift.constructor([seed, seed, seed, seed])
   r.randomint() // first number isn't very random for low s
   return r.randomint()[1]

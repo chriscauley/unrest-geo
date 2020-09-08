@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom'
+
 import { range } from '../../../src'
 import { click, flag, prepScores, _var } from './game'
 import useGame from './useGame'
+import { Win, Lose } from './gameover'
 
 function Game({ match }) {
   const { W, H, M, x, y } = parseParams(match)
@@ -22,8 +24,11 @@ function Game({ match }) {
     after = ` @ ${x},${y}`
     const onClick = (i) => (e) => {
       e.preventDefault()
-      ;(e.buttons === 1 || e.shiftKey ? flag : click)(game, i)
-      game.update()
+      if (!game.win && !game.lose) {
+        const action = e.buttons === 1 || e.shiftKey ? flag : click
+        action(game, i)
+        game.update()
+      }
     }
     rows = game.rows.map((indexes) =>
       indexes.map((index) => ({
@@ -35,8 +40,12 @@ function Game({ match }) {
     scores = prepScores(game)
   }
 
+  const { win, lose } = game || {}
+
   return (
     <div className="minesweeper">
+      {lose && <Lose game={game} />}
+      {win && <Win game={game} />}
       <div className="flex justify-between p-4 bg-white sticky top-0 z-10">
         <div className="mr-8">{`Map: ${W}x${H}x${M}${after}`}</div>
         <div className="scores">

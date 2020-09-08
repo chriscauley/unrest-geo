@@ -954,6 +954,11 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
+"@unrest/css@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@unrest/css/-/css-0.0.6.tgz#7736b05a7ad36fc30bfe49eeebbf73344922046c"
+  integrity sha512-0RMTFBTLN1IGzPpCSoAXtjM/coa4ghBrr5VjD41F9PxaXchyNcT6wONe8gqkzsl9+k7glZWCR0HsET9Sz0Jtxg==
+
 "@unrest/tailwind@^0.0.7":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@unrest/tailwind/-/tailwind-0.0.7.tgz#49e4454e1c27813e435487379244b82cec545b70"

@@ -6,10 +6,10 @@ const game_cache = {}
 
 export default (W, H, M, x, y) => {
   const [_, setState] = React.useState()
-  const key = `${W}x${H}x${M}x${x},${y}`
   if (x === undefined) {
-    return
+    return undefined
   }
+  const key = `${W}x${H}x${M}x${x},${y}`
   if (!game_cache[key]) {
     W++
     H++
@@ -34,13 +34,16 @@ export default (W, H, M, x, y) => {
       recount: () => {
         let count = 0
         Object.keys(game.visible).forEach((index) => {
-          if (game.visible[index] === undefined) {
+          const value = game.visible[index]
+          if (value === undefined || Number.isNaN(value)) {
             delete game.visible[index]
           } else {
             count++
           }
         })
         game.scores.click = W * H - count
+        game.lose = game.scores.lives < 1
+        game.win = game.scores.click === 0 && game.scores.flag === 0
         return game.scores.click
       },
     }
@@ -85,5 +88,9 @@ export default (W, H, M, x, y) => {
   }
   const game = (window.g = game_cache[key])
   game.update = () => setState(game.recount())
+  game.restart = () => {
+    delete game_cache[key]
+    setState(Math.random())
+  }
   return game
 }

@@ -6,6 +6,7 @@
     "develop": "parcel src/index.html -p 7574"
   },
   "dependencies": {
+    "@unrest/css": "^0.0.6",
     "@unrest/tailwind": "^0.0.7",
     "classnames": "^2.2.6",
     "parcel": "^1.12.4",
