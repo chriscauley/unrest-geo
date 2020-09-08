@@ -71,15 +71,12 @@ export const click = (game, index, force) => {
 }
 
 export const flag = (game, index) => {
-  if (game.visible[index] !== undefined) {
-    return
-  }
-  if (game.mines[index]) {
+  if (game.visible[index] === FLAG) {
+    delete game.visible[index]
+    game.scores.flag++
+  } else if (game.visible[index] === undefined) {
     game.visible[index] = FLAG
     game.scores.flag--
-  } else {
-    game.visible[index] = MISS
-    game.scores.miss++
   }
 }
 
