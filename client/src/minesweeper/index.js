@@ -28,10 +28,30 @@ const placeMine = (game, index) => {
 
 const placeHole = (game, index) => {
   game.mines[index] = HOLE
-  game.geo
-    .look('circle', index, 1, 1)
-    .filter((i) => game.mines[i] !== WALL)
-    .forEach((i) => (game.mines[i] = HOLE))
+
+  let count = 0
+  let fails = 0
+  const goal = (game.geo.W + game.geo.H) / 4
+  const targets = game.geo.look('circle', index, 1, 1).filter((i) => allowMine(game, i))
+  while (count < goal) {
+    const target = targets.splice(random(count + fails + 1 + index) % targets.length, 1)[0]
+    if (allowMine(game, target)) {
+      game.mines[target] = HOLE
+      game.geo
+        .look('circle', target, 1, 1)
+        .filter((i) => allowMine(game, i))
+        .forEach((i) => {
+          targets.push(i)
+        })
+      count++
+    } else {
+      fails++
+    }
+    if (fails > goal * 2) {
+      throw `Unable to place ${goal} mines in ${fails} turns`
+    }
+  }
+  targets.forEach((i) => (game.mines[i] = HOLE))
 }
 
 const click = (game, index, force) => {
@@ -43,6 +63,7 @@ const click = (game, index, force) => {
   }
   if (game.mines[index] === MINE) {
     game.scores.mine++
+    game.scores.flag--
   }
   game.visible[index] = game.mines[index] || game.near[index]
   if (game.near[index] === ZERO) {
@@ -56,7 +77,7 @@ const flag = (game, index) => {
   }
   if (game.mines[index]) {
     game.visible[index] = FLAG
-    game.scores.flag++
+    game.scores.flag--
   } else {
     game.visible[index] = MISS
     game.scores.miss++
@@ -82,7 +103,7 @@ const useGame = (W, H, M, x, y) => {
     H++
     x++
     y++
-    const S = y * H + x
+    const S = y * W + x
     const geo = Geo(W, H)
     const game = {
       mines: {},
@@ -94,7 +115,7 @@ const useGame = (W, H, M, x, y) => {
       scores: {
         miss: 0,
         mine: 0,
-        flag: 0,
+        flag: M,
       },
       look(index) {
         return geo.look('box', index, 1, 1)
@@ -122,18 +143,19 @@ const useGame = (W, H, M, x, y) => {
       if (i % W === 0) {
         game.rows.push((row = []))
       }
-      // if (game.mines[i] !== WALL) {
       row.push(i)
-      // }
     })
     placeHole(game, S)
-    while (count < M && fails <= M * 2) {
-      const index = random.int((S + 1) * M * (count + 1) * fails, geo.indexes.length)
+    while (count < M) {
+      const index = random.int((S + count + fails) * M, geo.indexes.length)
       if (allowMine(game, index)) {
         placeMine(game, index)
         count++
       } else {
         fails++
+      }
+      if (fails > M * 2) {
+        throw `Unable to place ${M} mines in ${fails} turns`
       }
     }
     geo.rows = []
