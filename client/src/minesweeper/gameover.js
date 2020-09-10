@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import css from '@unrest/css'
 
+import { useFlag, FlagPicker } from '../settings'
+
 function Modal({ title, children }) {
   return (
     <div className={css.modal.outer()}>
@@ -14,9 +16,15 @@ function Modal({ title, children }) {
   )
 }
 
-export function Win() {
+export function Win({ _game }) {
+  const { flag } = useFlag()
   return (
     <Modal title="You Win">
+      <div className="pb-4">You have claimed victory for {flag}</div>
+      <div>
+        Change flags?
+        <FlagPicker onChange={(f) => console.log(f) /* eslint-disable-line */}/>
+      </div>
       <Link to="/minesweeper/" className={css.button()}>
         Play another
       </Link>

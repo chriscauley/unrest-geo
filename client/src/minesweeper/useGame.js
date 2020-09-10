@@ -18,6 +18,10 @@ export default (W, H, M, x, y) => {
     const S = y * W + x
     const geo = Geo(W, H)
     const game = {
+      actions: {
+        click: [],
+        flag: [],
+      },
       mines: {},
       near: {},
       geo,
@@ -70,7 +74,7 @@ export default (W, H, M, x, y) => {
       } else {
         fails++
       }
-      if (fails > M * 2) {
+      if (fails > M * 10) {
         throw `Unable to place ${M} mines in ${fails} turns`
       }
     }
@@ -85,6 +89,7 @@ export default (W, H, M, x, y) => {
       .filter(([_, value]) => value === _var.WALL)
       .forEach(([index, _]) => (game.visible[index] = _var.WALL))
     game.recount()
+    game.actions.click = [] // clear out clicks as game has not yet started
   }
   const game = (window.g = game_cache[key])
   game.update = () => setState(game.recount())

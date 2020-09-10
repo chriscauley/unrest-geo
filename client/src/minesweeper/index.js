@@ -1,12 +1,15 @@
 import React from 'react'
 import { Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom'
+import css from '@unrest/css'
 
 import { range } from '../../../src'
+import { SettingsLink, useFlag } from '../settings'
 import { click, flag, prepScores, _var } from './game'
 import useGame from './useGame'
 import { Win, Lose } from './gameover'
 
 function Game({ match }) {
+  useFlag() // ensures there's css for flag
   const { W, H, M, x, y } = parseParams(match)
   const game = useGame(W, H, M, x, y)
   let rows
@@ -46,14 +49,20 @@ function Game({ match }) {
     <div className="minesweeper">
       {lose && <Lose game={game} />}
       {win && <Win game={game} />}
-      <div className="flex justify-between p-4 bg-white sticky top-0 z-10">
-        <div className="mr-8">{`Map: ${W}x${H}x${M}${after}`}</div>
+      <div className="flex items-center justify-between p-4 bg-white sticky top-0 z-10">
+        <div className="mr-8">
+          <Link to="/" className={css.link('mr-4')}>
+            Home
+          </Link>
+          {`Map: ${W}x${H}x${M}${after}`}
+        </div>
         <div className="scores">
           {scores.map((i) => (
             <div key={i.char} className="score">
               <span className={`cell cell-${i.char}`} /> {i.value}
             </div>
           ))}
+          <SettingsLink />
         </div>
       </div>
       <div className="geo geo-xy">
@@ -97,6 +106,7 @@ const parseParams = (match) => {
 
 function Index() {
   const links = {
+    trivial: '6x6x1/',
     easy: '9x9x12/',
     medium: '16x16x40/',
     hard: '16x32x99/',
