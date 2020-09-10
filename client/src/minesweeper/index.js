@@ -3,6 +3,7 @@ import { Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom
 import css from '@unrest/css'
 
 import { range } from '../../../src'
+import api from '../api'
 import { SettingsLink, useFlag } from '../settings'
 import { click, flag, prepScores, _var } from './game'
 import useGame from './useGame'
@@ -10,6 +11,7 @@ import { Win, Lose } from './gameover'
 
 function Game({ match }) {
   const { W, H, M, x, y } = parseParams(match)
+  const leaderboards = api.leaderboards.use()
 
   const game = useGame(W, H, M, x, y)
   useFlag() // ensures there's css for flag
@@ -18,10 +20,13 @@ function Game({ match }) {
   let after = ''
   let scores = []
   if (!game) {
+    const key = `${W}x${H}x${M}`
+    const leaderboard = leaderboards[key]
     rows = range(H).map((y) =>
       range(W).map((x) => ({
         onClick: () => history.push(`${x},${y}/`),
         index: x + y * H,
+        value: leaderboard && leaderboard.first_flag[x + y * H],
       })),
     )
   } else {

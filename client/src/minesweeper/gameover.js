@@ -5,6 +5,7 @@ import { post } from '@unrest/core'
 import css from '@unrest/css'
 
 import { useFlag, FlagPicker } from '../settings'
+import api from '../api'
 
 function Modal({ title, children }) {
   return (
@@ -23,7 +24,8 @@ export function Win({ game }) {
   const { flag } = useFlag()
   if (game.flag !== flag) {
     game.flag = flag
-    const data = pick(game, ['actions', 'flag', 'W', 'H', 'M', 'S'])
+    const data = pick(game, ['actions', 'flag', 'key'])
+    api.leaderboards.markStale()
     post('/api/complete_game/', data).then(() => setState(Math.random()))
   }
   return (

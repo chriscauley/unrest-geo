@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path('', include('unrest.urls')),
     path('api/complete_game/', views.complete_game),
+    path('api/leaderboards/', views.game_leaderboards),
 ]
 
 if settings.DEBUG: # pragma: no cover

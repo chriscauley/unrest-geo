@@ -1,5 +1,5 @@
 .minesweeper {
-  .cell-undefined, .cell-F {
+  .cell-undefined, .cell-, .cell-F {
     @apply cursor-pointer;
   }
   .cell {

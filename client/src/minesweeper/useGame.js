@@ -9,15 +9,13 @@ export default (W, H, M, x, y) => {
   if (x === undefined) {
     return undefined
   }
-  const key = `${W}x${H}x${M}x${x},${y}`
+  const key = `${W}x${H}x${M}x${W * y + x}`
   if (!game_cache[key]) {
-    const geo = Geo(W+1, H+1) // making geo 1 bigger than actual game to allow for walls
-    const S = geo.xy2index([x+1, y+1])
+    const geo = Geo(W + 1, H + 1) // making geo 1 bigger than actual game to allow for walls
+    const S = geo.xy2index([x + 1, y + 1])
+    console.log(key, S)
     const game = {
-      W,
-      H,
-      M,
-      S,
+      key,
       actions: {
         click: [],
         flag: [],

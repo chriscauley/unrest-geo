@@ -1,14 +1,12 @@
 from django.http import JsonResponse
-from server.models import GameCompletion
+from server.models import GameCompletion, GameCache
 
 import json
 
 def complete_game(request):
     data = json.loads(request.body.decode('utf-8') or "{}")
-    kwargs = {
-        'game': "{W}x{H}x{M}".format(**data),
-        'seed': data['S'],
-    }
+    key, seed = data['key'].rsplit('x', 1)
+    kwargs = { 'game': key, 'seed': int(seed) }
     if request.user.is_authenticated:
         kwargs['user'] = request.user
     else:
@@ -20,3 +18,6 @@ def complete_game(request):
     gc.actions = data['actions']
     gc.save()
     return JsonResponse({})
+
+def game_leaderboards(request):
+    return JsonResponse({ gc.game: gc.to_json() for gc in GameCache.objects.all()})
