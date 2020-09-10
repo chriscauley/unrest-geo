@@ -3,10 +3,12 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 
 import server.forms # adds schema form urls
+from server import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path('', include('unrest.urls')),
+    path('api/complete_game/', views.complete_game),
 ]
 
 if settings.DEBUG: # pragma: no cover
