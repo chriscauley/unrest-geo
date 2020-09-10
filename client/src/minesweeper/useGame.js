@@ -11,12 +11,8 @@ export default (W, H, M, x, y) => {
   }
   const key = `${W}x${H}x${M}x${x},${y}`
   if (!game_cache[key]) {
-    W++
-    H++
-    x++
-    y++
-    const S = y * W + x
-    const geo = Geo(W, H)
+    const geo = Geo(W+1, H+1) // making geo 1 bigger than actual game to allow for walls
+    const S = geo.xy2index([x+1, y+1])
     const game = {
       W,
       H,
@@ -49,7 +45,7 @@ export default (W, H, M, x, y) => {
             count++
           }
         })
-        game.scores.click = W * H - count
+        game.scores.click = geo.W * geo.H - count
         game.lose = game.scores.lives < 1
         game.win = game.scores.click === 0 && game.scores.flag === 0
         return game.scores.click
@@ -64,7 +60,7 @@ export default (W, H, M, x, y) => {
       .forEach((i) => (game.mines[i] = _var.WALL))
     geo.indexes.forEach((i) => {
       game.near[i] = 0
-      if (i % W === 0) {
+      if (i % geo.W === 0) {
         game.rows.push((row = []))
       }
       row.push(i)
