@@ -31,10 +31,10 @@ export const useFlag = () => {
   if (!style.innerHTML.includes(`"${flag}"`)) {
     style.innerHTML = `.minesweeper .cell-F:before { content: "${flag}" }`
   }
-  const setFlag = (char, callback) => {
+  const setFlag = (char, onChange) => {
     localStorage.setItem(KEY, char)
-    callback && callback(char)
-    setState(char)
+    setState(Math.random())
+    onChange && onChange(char)
   }
   return { flag, setFlag }
 }

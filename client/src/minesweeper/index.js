@@ -9,13 +9,14 @@ import useGame from './useGame'
 import { Win, Lose } from './gameover'
 
 function Game({ match }) {
-  useFlag() // ensures there's css for flag
   const { W, H, M, x, y } = parseParams(match)
+
   const game = useGame(W, H, M, x, y)
+  useFlag() // ensures there's css for flag
+  const history = useHistory()
   let rows
   let after = ''
   let scores = []
-  const history = useHistory()
   if (!game) {
     rows = range(H).map((y) =>
       range(W).map((x) => ({

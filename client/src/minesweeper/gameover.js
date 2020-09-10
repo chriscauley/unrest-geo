@@ -1,5 +1,7 @@
+import { pick } from 'lodash'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { post } from '@unrest/core'
 import css from '@unrest/css'
 
 import { useFlag, FlagPicker } from '../settings'
@@ -16,14 +18,20 @@ function Modal({ title, children }) {
   )
 }
 
-export function Win({ _game }) {
+export function Win({ game }) {
+  const [_, setState] = React.useState()
   const { flag } = useFlag()
+  if (game.flag !== flag) {
+    game.flag = flag
+    const data = pick(game, ['actions', 'flag', 'W', 'H', 'M', 'S'])
+    post('/api/complete_game/', data).then(() => setState(Math.random()))
+  }
   return (
     <Modal title="You Win">
       <div className="pb-4">You have claimed victory for {flag}</div>
       <div>
         Change flags?
-        <FlagPicker onChange={(f) => console.log(f) /* eslint-disable-line */}/>
+        <FlagPicker onChange={() => setState(Math.random())} />
       </div>
       <Link to="/minesweeper/" className={css.button()}>
         Play another

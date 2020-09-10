@@ -18,6 +18,10 @@ export default (W, H, M, x, y) => {
     const S = y * W + x
     const geo = Geo(W, H)
     const game = {
+      W,
+      H,
+      M,
+      S,
       actions: {
         click: [],
         flag: [],
