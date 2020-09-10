@@ -8,19 +8,9 @@ const DINDEX_NAMES = ['u', 'l', 'r', 'd']
 const DINDEX_CHARS = ['⇧', '⇦', '⇨', '⇩']
 
 class Geo {
-  constructor(x0, x_max, y0, y_max) {
-    if (x_max === undefined) {
-      x_max = x0
-    }
-    if (y0 === undefined) {
-      y_max = x_max - 1
-      x_max = x0 - 1
-      x0 = 0
-      y0 = 0
-    }
-
-    const W = Math.abs(x_max - x0) + 1
-    const H = Math.abs(y_max - y0) + 1
+  constructor(W, H, { x0 = 0, y0 = 0 } = {}) {
+    const x_max = W + x0 - 1
+    const y_max = H + y0 - 1
 
     // constants
     Object.assign(this, { x0, y0, W, H, x_max, y_max })

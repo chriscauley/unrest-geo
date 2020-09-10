@@ -29,9 +29,10 @@ const numalpha = '0123456789abcdefghijklmnopqrstuvqxyz'
 Shapes.list
   .filter((s) => !s.startsWith('__'))
   .forEach((shape) => {
-    test.only('look.' + shape, () => {
+    test('look.' + shape, () => {
       const dist = 3
-      const geo = Geo(dist * 2 + 1)
+      const S = dist * 2 + 1
+      const geo = Geo(S, S)
       const dindex = 1
       const indexes = geo.look(shape, geo.CENTER, dist, dindex)
       const title = `${shape} ${dist} ${geo._dindex2name[dindex]}`
@@ -42,11 +43,23 @@ Shapes.list
 test('`geo.look(shape, index, dist, dindex)` changes direction with dindex', () => {
   const shape = 'cone'
   const dist = 4
-  const geo = Geo(dist * 2 + 1)
+  const S = dist * 2 + 1
+  const geo = Geo(S, S)
   const index = geo.CENTER
   geo.dindexes.forEach((dindex) => {
     const indexes = geo.look(shape, index, dist, dindex)
     const dir = geo._dindex2name[dindex]
     snapIndexes(geo, indexes, `"${shape}" facing ${dir} at dist ${dist}`)
   })
+})
+
+test('non-zero x0, y0', () => {
+  const geo = new Geo(5, 5, { x0: -1, y0: -1 })
+  const b = {}
+  const set = (xy, v) => (b[geo.xy2index(xy)] = v)
+  set([0, 0], 0)
+  set([1, 1], 1)
+  set([1, 2], 2)
+  set([-1, -1], '-')
+  expect(JSON.stringify(b)).toMatchSnapshot()
 })
