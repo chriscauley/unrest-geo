@@ -11,19 +11,21 @@ class Geo {
   constructor(W, H, { x0 = 0, y0 = 0 } = {}) {
     const x_max = W + x0 - 1
     const y_max = H + y0 - 1
+    const AREA = W * H
 
     // constants
-    Object.assign(this, { x0, y0, W, H, x_max, y_max })
+    Object.assign(this, { x0, y0, W, H, x_max, y_max, AREA })
     this.doCache()
     this.look = Look(this)
   }
 
   doCache() {
     const { W, H, x0, x_max, y0, y_max } = this
+    const xs = range(W)
+    const ys = range(H)
     // cache tables
     Object.assign(this, {
       indexes: [],
-      AREA: W * H,
       _dindex2char: {},
       _name2dindex: {},
       _dindex2name: {},
@@ -34,6 +36,8 @@ class Geo {
         [1]: [1, -W, W, -1], // r, u, d, l
         [-1]: [-1, W, -W, 1], // l, d, u, r
       },
+      _indexes_by_y: ys.map((y) => xs.map((x) => this.xy2index([x, y]))),
+      _indexes_by_x: xs.map((x) => ys.map((y) => this.xy2index([x, y]))),
     })
 
     this.dindexes.forEach((dindex, i) => {
@@ -53,8 +57,17 @@ class Geo {
     )
   }
 
+  getRowIndexes(y) {
+    return this._indexes_by_y[y]
+  }
+
+  getColumnIndexes(x) {
+    return this._indexes_by_x[x]
+  }
+
   index2xy = (i) => [mod(i, this.W), Math.floor(i / this.W)]
   xy2index = (xy) => mod(xy[0] + xy[1] * this.W, this.AREA)
+  dxy2dindex = (dxy) => dxy[0] + dxy[1] * this.W
   print(board, options = {}) {
     const {
       from_xy = [this.x0, this.y0],

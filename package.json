@@ -2,9 +2,10 @@
   "name": "@unrest/geo",
   "version": "0.0.1",
   "description": "spatial engine for arbitrarily shaped dimensions",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
+    "build": "yarn babel src -d dist",
     "develop": "cd client; yarn develop",
     "lint": "yarn eslint __tests__ src client/src"
   },
@@ -12,7 +13,9 @@
     "xorshift": "^1.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.11.5",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.8.1",
