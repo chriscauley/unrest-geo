@@ -1,6 +1,6 @@
 {
   "name": "@unrest/geo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "spatial engine for arbitrarily shaped dimensions",
   "main": "dist/index.js",
   "license": "MIT",
