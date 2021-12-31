@@ -26,7 +26,7 @@ const sign = ([dx, dy]) => [Math.sign(dx), Math.sign(dy)]
 
 export default {
   // isZero: ([dx, dy]) => !dx && !dy,
-  // times: ([dx, dy], num) => [dx * num, dy * num],
+  times: (xy, num) => [xy[0] * num, xy[1] * num],
   // sum: dxys => dxys.reduce(add, [...ZERO]),
   // getDistance: (dxy1, dxy2) => magnitude(subtract(dxy1, dxy2)),
   // turn: ([dx, dy], dir) => [-dy * dir, dx * dir],

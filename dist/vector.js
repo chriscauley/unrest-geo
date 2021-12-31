@@ -76,7 +76,9 @@ var sign = function sign(_ref11) {
 
 var _default = {
   // isZero: ([dx, dy]) => !dx && !dy,
-  // times: ([dx, dy], num) => [dx * num, dy * num],
+  times: function times(xy, num) {
+    return [xy[0] * num, xy[1] * num];
+  },
   // sum: dxys => dxys.reduce(add, [...ZERO]),
   // getDistance: (dxy1, dxy2) => magnitude(subtract(dxy1, dxy2)),
   // turn: ([dx, dy], dir) => [-dy * dir, dx * dir],
